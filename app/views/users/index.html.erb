@@ -1,1 +1,26 @@
 <h1>Welcome</h1>
+<li>Welcome👏<%= current_user.username%>👏</li>
+<li>📧:<%= current_user.email%>
+</li>
+<li>Level: <%= @level_name%>
+</li>
+<li>Points: <%= current_user.points%>
+</li>
+
+<div class="newtutorial">
+  <%= link_to '新手说明' , users_newbie_path %>
+</div>
+
+<div class="game-models">
+  <div class="practice">
+    <%= link_to '练习模式' , games_practice_path %>
+  </div>
+
+  <div class="challenge">
+    <%= link_to '挑战模式' , games_challenge_path %>
+  </div>
+</div>
+
+<div class="ranking">
+  <%= link_to '排行榜' , users_ranking_path %>
+</div>
