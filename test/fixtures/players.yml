@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  cards: MyString
+  original_cards: MyString
+  powers: 1
+  current_history: MyString
+  is_ai: false
+  range: MyString
+  init_num_cards: MyString
+  default_primes: MyString
+
+two:
+  cards: MyString
+  original_cards: MyString
+  powers: 1
+  current_history: MyString
+  is_ai: false
+  range: MyString
+  init_num_cards: MyString
+  default_primes: MyString
