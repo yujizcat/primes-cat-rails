@@ -10,22 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_26_150607) do
+ActiveRecord::Schema.define(version: 2022_05_27_074212) do
 
   create_table "games", force: :cascade do |t|
-    t.text "all_players"
-    t.text "current_player"
     t.integer "round"
     t.string "current_action"
     t.text "current_possibles"
     t.boolean "game_over", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "player_id", null: false
+    t.index ["player_id"], name: "index_games_on_player_id"
   end
 
   create_table "players", force: :cascade do |t|
     t.integer "user_id"
-    t.integer "game_id"
     t.text "cards"
     t.text "original_cards"
     t.integer "powers"
@@ -36,7 +35,6 @@ ActiveRecord::Schema.define(version: 2022_05_26_150607) do
     t.text "default_primes"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["game_id"], name: "index_players_on_game_id"
     t.index ["user_id"], name: "index_players_on_user_id"
   end
 
@@ -55,4 +53,5 @@ ActiveRecord::Schema.define(version: 2022_05_26_150607) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "games", "players"
 end

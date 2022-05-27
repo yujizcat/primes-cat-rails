@@ -1,31 +1,42 @@
+require "prime"
+
 class PlayersController < ApplicationController
   # before_action :initialize
 
   def index
+    @players = Player.all
   end
 
   def show
+    @player = Player.find(params[:format].to_i)
   end
 
   def new
-    @player = Player.new
     puts "aaa"
+    @player = Player.new
   end
 
   def create
     puts "create"
-    @player.name = current_user.username
+    @player = Player.new
+    # @player.name = current_user.username
+    @player.user = current_user
+    @player.user_id = current_user.id
     @player.cards = []
     @player.original_cards = []
-    @player.level = current_user.level
+    # @player.level = current_user.level
     @player.powers = 0
     @player.current_history = []
     @player.is_ai = false
     @player.range = [determine_level[0], determine_level[1]]
     @player.init_num_cards = determine_level[2]
-    @player.default_primes = Prime.each(@range[1]).to_a.select { |x| x >= @range[0] }.map { |x| x }
-    if @player.save
-      redirect_to games_practice_path
+    @player.default_primes = Prime.each(@player.range[1].to_i).to_a.select { |x| x >= @player.range[0].to_i }.map { |x| x }
+    p @player
+    @player.save!
+    if @player.save!
+      p "player saved"
+      p @player
+      redirect_to users_players_path(@player)
     else
       puts "error"
       render :new
@@ -34,6 +45,7 @@ class PlayersController < ApplicationController
 
   def determine_level
     # Set up player's default number of cards, range by level
+    p "determine"
     each_max = [50, 100, 200, 500, 1000, 2000, 5000, 10000]
     num_cards = if current_user.level.to_i.odd? then 3 else 4 end
     case current_user.level.to_i

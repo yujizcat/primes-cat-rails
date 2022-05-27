@@ -8,6 +8,12 @@ Rails.application.routes.draw do
 
   get "/users/newbie", to: "users#newbie"
   get "/users/ranking", to: "users#ranking"
+  resource :users do
+    resource :players, only: [:show]
+  end
+  #get "/players/:id", to: "players#show"
+  post "/players/create", to: "players#create"
+  post "/games/create", to: "games#create"
   get "/games/practice", to: "games#practice"
   get "/games/challenge", to: "games#challenge"
 
