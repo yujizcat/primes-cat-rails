@@ -1,9 +1,15 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show]
+  #helper_method :levelup
+  #helper_method :leveldown
 
   def index
-    @users = User.all
+    #@users = User.all
+    p "paaaaaaa"
+    p params
     @level_name = get_level_name
+    #@levelup = levelup
+    #@leveldown = leveldown
   end
 
   def get_level_name
@@ -81,13 +87,21 @@ class UsersController < ApplicationController
   def ranking
   end
 
-  private
+  def levelup
+    p "up"
+    @user = current_user
+    @user.level += 1
+    @user.save!
+    p @user.level
+    redirect_to :root
+  end
 
-  #def set_user
-  #  @user = User.find(params[:id])
-  #end
-
-  #def user_params
-  #  params.require(:user).permit(:username, :email, :level, :points)
-  #end
+  def leveldown
+    p "down"
+    @user = current_user
+    @user.level -= 1
+    @user.save!
+    p @user.level
+    redirect_to :root
+  end
 end

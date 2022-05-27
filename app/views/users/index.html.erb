@@ -2,7 +2,10 @@
 <li>Welcome👏<%= current_user.username%>👏</li>
 <li>📧:<%= current_user.email%>
 </li>
-<li>Level: <%= @level_name%>
+<li>Level: <%= current_user.level%>
+</li>
+</li>
+<li>Level Name: <%= @level_name%>
 </li>
 <li>Points: <%= current_user.points%>
 </li>
@@ -23,4 +26,13 @@
 
 <div class="ranking">
   <%= link_to '排行榜' , users_ranking_path %>
+</div>
+
+<div class="level-up">
+
+  <%= link_to '+', users_levelup_path, method: :post %>
+</div>
+
+<div class="level-down">
+  <%= link_to '-', users_leveldown_path, method: :post %>
 </div>

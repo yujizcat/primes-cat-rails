@@ -23,6 +23,7 @@ gem "jbuilder", "~> 2.7"
 # gem 'bcrypt', '~> 3.1.7'
 gem "devise"
 gem "simple_form"
+gem "friendly_id", "~> 5.4.0", require: "friendly_id"
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'

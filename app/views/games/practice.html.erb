@@ -1,3 +1,20 @@
-<h1>练习模式</h1>
-<h1>current_user.username</h1>
-<h1><%= @player.range%></h1>
+<div class="banner">
+  <h1>练习模式</h1>
+  <h1>
+    <%=current_user.username%>
+  </h1>
+  <h1>
+    <%= @game.player.id%>
+  </h1>
+</div>
+
+<div class="all-cards">
+
+  <% @game.player.cards.each do |n| %>
+    <div class="single-card">
+      <h1>
+        <%= n %>
+      </h1>
+    </div>
+    <% end %>
+</div>

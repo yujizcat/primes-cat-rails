@@ -1,8 +1,6 @@
 require "prime"
 
 class PlayersController < ApplicationController
-  # before_action :initialize
-
   def index
     @players = Player.all
   end
@@ -11,15 +9,9 @@ class PlayersController < ApplicationController
     @player = Player.find(params[:format].to_i)
   end
 
-  def new
-    puts "aaa"
-    @player = Player.new
-  end
-
   def create
-    puts "create"
+    puts "create player"
     @player = Player.new
-    # @player.name = current_user.username
     @player.user = current_user
     @player.user_id = current_user.id
     @player.cards = []
@@ -31,6 +23,7 @@ class PlayersController < ApplicationController
     @player.range = [determine_level[0], determine_level[1]]
     @player.init_num_cards = determine_level[2]
     @player.default_primes = Prime.each(@player.range[1].to_i).to_a.select { |x| x >= @player.range[0].to_i }.map { |x| x }
+    @player.default_primes.compact!
     p @player
     @player.save!
     if @player.save!
