@@ -4,12 +4,16 @@ class UsersController < ApplicationController
   #helper_method :leveldown
 
   def index
-    #@users = User.all
-    p "paaaaaaa"
+    p "main menu"
     p params
     @level_name = get_level_name
-    #@levelup = levelup
-    #@leveldown = leveldown
+    #Game.delete_all
+    #Player.delete_all
+    #Game.where(:user_id => current_user.id).destroy_all
+    #p Player.find_by(user_id: current_user.id)
+    #Game.where("user_id == (?)", current_user.id).delete_all
+    Game.where("user_id == (?)", current_user.id).delete_all
+    Player.where("user_id == (?)", current_user.id).delete_all
   end
 
   def get_level_name

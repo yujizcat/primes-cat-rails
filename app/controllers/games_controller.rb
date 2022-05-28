@@ -10,6 +10,7 @@ class GamesController < ApplicationController
     puts "create_game"
     @player = Player.find(params[:player_id])
     @game = Game.new
+    @game.user_id = current_user.id
     @game.round = 1
     @game.current_action = ""
     @game.current_possibles = []
@@ -149,5 +150,13 @@ class GamesController < ApplicationController
   end
 
   def game
+  end
+
+  def backtomain
+    p "backtomain"
+    @game = Game.find(params[:game_id])
+    p @game
+    @game.delete
+    redirect_to :root
   end
 end

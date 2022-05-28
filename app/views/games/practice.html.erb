@@ -1,12 +1,15 @@
 <div class="banner">
+
   <h1>练习模式</h1>
   <h1>
     <%=current_user.username%>
   </h1>
   <h1>
     <%= @game.player.id%>
-
   </h1>
+  <div class="back">
+    <%= link_to '返回主页' , games_backtomain_path(:game_id => @game), method: :get %>
+  </div>
   <h1>
     <% if @game.current_action.split(" ").size == 2 %>
     <%= "
