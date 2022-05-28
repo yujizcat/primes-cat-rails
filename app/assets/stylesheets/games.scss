@@ -1,6 +1,9 @@
 // Place all the styles related to the games controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+
+@import "bootstrap";
+
 .banner{
   background-color: antiquewhite;
 }
@@ -8,16 +11,36 @@
 
 .all-cards{
 
-  background-color: rgb(211, 231, 255);
-  font-size: 100px;
+  background-color: rgb(240, 242, 244);
+  height: 300px;
+  font-size: 40px;
   display: flex;
+  justify-content: center;
   justify-content: space-around;
 }
 
 .single-card{
-  color: blue
+  margin-top: 100px;
+
 }
 
-.single-card:hover{
+.single-card a{
+
+  color: rgb(53, 32, 157);
+  font-size: 50px;
+  text-decoration: none;
+}
+
+.single-card-clicked {
   color: red;
+  text-decoration: none;
+}
+
+.single-card a:active{
+  color: aqua;
+}
+
+
+.single-card :hover{
+  color: rgb(206, 46, 46);
 }

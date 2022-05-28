@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get "/users/ranking", to: "users#ranking"
   post "users/levelup"
   post "users/leveldown"
+  get "games/select", to: "games#select"
   resource :users
   resource :users do
     resource :players, only: [:show]

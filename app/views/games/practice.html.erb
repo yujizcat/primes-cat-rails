@@ -5,16 +5,23 @@
   </h1>
   <h1>
     <%= @game.player.id%>
+      <%= @game.current_action %>
   </h1>
 </div>
 
 <div class="all-cards">
 
-  <% @game.player.cards.each do |n| %>
+  <% @game.player.cards.each_with_index do |n,i| %>
     <div class="single-card">
       <h1>
-        <%= n %>
+        <% if @game.current_action.split(" ").include?(n.to_s) %>
+        <%= link_to n,  games_select_path(:selected_number => n, :index => i, :player_id =>@game.player, :game_id => @game), :style=>'color:red; font-size:70px; padding: 15px;', method: :get %>
+        <% else %>
+        <%= link_to n, games_select_path(:selected_number => n, :index => i, :player_id =>@game.player, :game_id => @game), method: :get, :test => n %>
+        <% end %>
       </h1>
     </div>
     <% end %>
 </div>
+
+<a href="#" class="btn btn-primary">Click me</a>
