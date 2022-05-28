@@ -43,7 +43,7 @@ class GamesController < ApplicationController
   end
 
   def select
-    puts "say"
+    puts "select"
     @player = Player.find(params[:player_id])
     @game = Game.find(params[:game_id])
     if @game.current_action.split(" ").include?(params[:selected_number])
@@ -84,6 +84,57 @@ class GamesController < ApplicationController
     puts params[:format].to_i
     # redirect_to games_practice_path
     redirect_back fallback_location: root_path
+  end
+
+  def add_cards
+    p "addeee"
+    p params[:my_action]
+    input = params[:my_action].split(" ")
+    @player = Player.find(params[:player_id])
+    player_card = @player.cards
+    new_value = input[0].to_i + input[1].to_i
+    @player.cards.flatten!
+    @player.cards.push(new_value.to_i)
+    @player.save!
+    p @player.cards
+    auto_reduce_fraction
+    auto_reduce_fraction
+
+    redirect_back fallback_location: root_path
+  end
+
+  def auto_reduce_fraction
+    gcd_found = false
+    common_number = false
+    change_index = [-1, -1]
+
+    @player.cards.each_with_index do |x, i|
+      @player.cards.each_with_index do |y, j|
+        break if gcd_found == true
+        if x != y
+          unless (x == 1) || (y == 1)
+            if x.gcd(y) != 1
+              @player.cards[i] /= x.gcd(y)
+              @player.cards[j] /= x.gcd(y)
+              gcd_found = true
+            end
+          end
+        else
+          if i != j
+            change_index = [i, j]
+            common_number = true
+            gcd_found = true
+          end
+        end
+      end
+    end
+    if common_number
+      @player.cards.delete_at(change_index[1])
+      @player.cards.delete_at(change_index[0])
+    end
+    @player.cards.delete(1) if @player.cards.include?(1)
+    @player.cards.sort!
+    @player.save!
   end
 
   def practice

@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   post "users/levelup"
   post "users/leveldown"
   get "games/select", to: "games#select"
+  get "games/add_cards", to: "games#add_cards"
   resource :users
   resource :users do
     resource :players, only: [:show]
