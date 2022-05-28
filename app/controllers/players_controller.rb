@@ -37,6 +37,18 @@ class PlayersController < ApplicationController
   end
 
   def determine_level
+    num_cards = 3
+    case current_user.level.to_i
+    when 0
+      [0, 50, num_cards]
+    when 1..10
+      [0, current_user.level.to_i * 100, num_cards]
+    else
+      [0, 50, num_cards]
+    end
+  end
+
+  def determine_level_2
     # Set up player's default number of cards, range by level
     p "determine"
     each_max = [50, 100, 200, 500, 1000, 2000, 5000, 10000]

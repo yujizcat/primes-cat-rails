@@ -20,7 +20,7 @@ class GamesController < ApplicationController
     @game.save!
     if @game.save!
       p "game saved"
-      redirect_to games_practice_path(@game)
+      redirect_to games_challenge_path(@game)
     else
       puts "error"
       render :new
@@ -92,6 +92,7 @@ class GamesController < ApplicationController
     p params[:my_action]
     input = params[:my_action].split(" ")
     @player = Player.find(params[:player_id])
+    @game = Game.find(params[:game_id])
     player_card = @player.cards
     new_value = input[0].to_i + input[1].to_i
     @player.cards.flatten!
@@ -100,6 +101,9 @@ class GamesController < ApplicationController
     p @player.cards
     auto_reduce_fraction
     auto_reduce_fraction
+    @game.current_action = ""
+    @game.round += 1
+    @game.save!
 
     redirect_back fallback_location: root_path
   end
@@ -138,15 +142,12 @@ class GamesController < ApplicationController
     @player.save!
   end
 
-  def practice
+  def challenge
     puts "bbb practice"
     p params
     @game = Game.find(params[:format].to_i)
     p @game
     p @game.player
-  end
-
-  def challenge
   end
 
   def game

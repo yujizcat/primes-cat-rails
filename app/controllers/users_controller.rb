@@ -62,24 +62,6 @@ class UsersController < ApplicationController
       "钻石★"
     when 21
       "星耀☆"
-    when 22
-      "星耀☆☆"
-    when 23
-      "星耀☆☆☆"
-    when 24
-      "星耀★"
-    when 25
-      "黄金王者"
-    when 26
-      "铂金王者"
-    when 27
-      "钻石王者"
-    when 28
-      "星耀王者"
-    when 29
-      "传奇王者"
-    when 30
-      "创世神"
     else
       return "游客"
     end
