@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_28_152201) do
+ActiveRecord::Schema.define(version: 2022_05_29_085850) do
 
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string "slug", null: false
@@ -41,7 +41,6 @@ ActiveRecord::Schema.define(version: 2022_05_28_152201) do
     t.integer "user_id"
     t.text "cards"
     t.text "original_cards"
-    t.integer "powers"
     t.text "current_history"
     t.boolean "is_ai", default: false
     t.text "range"
@@ -65,6 +64,8 @@ ActiveRecord::Schema.define(version: 2022_05_28_152201) do
     t.string "username"
     t.integer "level", default: 0
     t.integer "points", default: 0
+    t.boolean "on_duty", default: false
+    t.text "on_duty_cards"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

@@ -5,4 +5,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_one :player
+
+  serialize :on_duty_cards, Array
 end

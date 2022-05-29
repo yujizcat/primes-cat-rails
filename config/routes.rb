@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get "/users/ranking", to: "users#ranking"
   post "users/levelup"
   post "users/leveldown"
+  post "users/resetpoints"
   get "games/select", to: "games#select"
   get "games/add_cards", to: "games#add_cards"
   get "games/backtomain", to: "games#backtomain"

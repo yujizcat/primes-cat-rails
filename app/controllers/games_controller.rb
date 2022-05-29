@@ -8,8 +8,10 @@ class GamesController < ApplicationController
 
   def create
     puts "create_game"
+    @user = current_user
     @player = Player.find(params[:player_id])
     @game = Game.new
+
     @game.user_id = current_user.id
     @game.round = 1
     @game.current_action = ""
@@ -17,13 +19,17 @@ class GamesController < ApplicationController
     @game.game_over = false
     @game.player = set_up(@player)
     @player.original_cards = @player.cards.clone
+    @user.points -= calculate_points / 4 # For hold
     p "original"
-    p @player.original_cards
+    # p @player.original_cards
     @player.current_history << @player.original_cards
     @player.save!
     @game.save!
     if @game.save!
       p "game saved"
+      @user.on_duty = true
+      @user.on_duty_cards = @player.original_cards
+      @user.save!
       redirect_to games_challenge_path(@game)
     else
       puts "error"
@@ -43,7 +49,6 @@ class GamesController < ApplicationController
     p player.cards
     player.cards.sort!
 
-    # player.set_init_powers
     player.set_original_card
     return player
   end
@@ -94,8 +99,10 @@ class GamesController < ApplicationController
 
   def add_cards
     p "addeee"
+
     p params[:my_action]
     input = params[:my_action].split(" ")
+    @user = current_user
     @player = Player.find(params[:player_id])
     @game = Game.find(params[:game_id])
 
@@ -114,6 +121,9 @@ class GamesController < ApplicationController
     @player.save!
 
     check_game_over
+
+    @user.on_duty_cards = @player.cards
+    @user.save!
 
     redirect_back fallback_location: root_path
   end
@@ -155,6 +165,8 @@ class GamesController < ApplicationController
   def check_game_over
     if @player.cards.size <= 2
       puts "game over"
+      @player.cards = []
+      @player.save!
       @game.game_over = true
       @game.save!
     end
@@ -168,18 +180,38 @@ class GamesController < ApplicationController
     p @game.player
   end
 
+  def calculate_points
+    points = (@player.original_cards.sum) ** 1.1 / 2
+    return points.to_i
+  end
+
   def win
     p "You win"
+    @user = current_user
     @game = Game.find(params[:game_id].to_i)
     @player = Player.find(params[:player_id])
-    p params
+    @final_points = calculate_points
+    @user.points += @final_points
+    @user.points += @final_points / 4 # give back hold
+    @user.level += 1
+    @user.on_duty = false
+    @user.on_duty_cards = []
+    @user.save!
+    Game.where("user_id == (?)", current_user.id).delete_all
+    Player.where("user_id == (?)", current_user.id).delete_all
   end
 
   def backtomain
     p "backtomain"
+    @user = current_user
     @game = Game.find(params[:game_id])
-    p @game
-    @game.delete
+    @user.on_duty = false
+    @user.on_duty_cards = []
+    @user.save!
+
+    #@game.delete
+    Game.where("user_id == (?)", current_user.id).delete_all
+    Player.where("user_id == (?)", current_user.id).delete_all
     redirect_to :root
   end
 end

@@ -1,4 +1,7 @@
 <h1>Welcome</h1>
+<div class="signout">
+  <h2><%= link_to "Sign out!" , destroy_user_session_path, :method=> :delete %></h2>
+</div>
 <li>Welcome👏<%= current_user.username%>👏</li>
 <li>📧:<%= current_user.email%>
 </li>
@@ -10,6 +13,14 @@
 <li>Points: <%= current_user.points%>
 </li>
 
+
+
+<div class="on-duty">
+  <% if current_user.on_duty == true %>
+    <%= "任务正在中" %>
+  <% end %>
+</div>
+
 <div class="newtutorial">
   <%= link_to '新手说明' , users_newbie_path %>
 </div>
@@ -17,7 +28,11 @@
 <div class="game-models">
 
   <div class="challenge">
-    <%= link_to '挑战模式' , players_create_path, method: :post %>
+    <% if current_user.on_duty == true %>
+      <%= link_to '继续挑战' , games_challenge_path(@game), :data => {:confirm => "您目前还有任务没有完成，请回到之前的任务或者投降。"} %>
+    <% else %>
+      <%= link_to '挑战模式' , players_create_path, method: :post %>
+    <% end %>
   </div>
 </div>
 
@@ -27,9 +42,14 @@
 
 <div class="level-up">
 
-  <%= link_to '+', users_levelup_path, method: :post %>
+  <%= link_to '+增加等级', users_levelup_path, method: :post %>
 </div>
 
 <div class="level-down">
-  <%= link_to '-', users_leveldown_path, method: :post %>
+  <%= link_to '-减少等级', users_leveldown_path, method: :post %>
+</div>
+
+
+<div class="reset">
+  <%= link_to '积分清零', users_resetpoints_path, method: :post %>
 </div>

@@ -11,12 +11,12 @@ class PlayersController < ApplicationController
 
   def create
     puts "create player"
+    @user = current_user
     @player = Player.new
     @player.user = current_user
     @player.user_id = current_user.id
     @player.cards = []
     @player.original_cards = []
-    @player.powers = 0
     @player.current_history = []
     @player.is_ai = false
     @player.range = [determine_level[0], determine_level[1]]
@@ -27,6 +27,9 @@ class PlayersController < ApplicationController
     @player.save!
     if @player.save!
       p "player saved"
+      @user.on_duty = false
+      @user.on_duty_cards = []
+      @user.save!
       p @player
       redirect_to users_players_path(@player)
     else
@@ -39,7 +42,7 @@ class PlayersController < ApplicationController
     num_cards = 3
     case current_user.level.to_i
     when 0
-      [0, 5, 3]
+      [0, 30, 3]
     when 1..10
       [(current_user.level.to_i - 1) * 100, (current_user.level.to_i) * 100, num_cards]
     when 11

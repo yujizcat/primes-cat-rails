@@ -20,7 +20,9 @@
 }
 
 .single-card{
-  margin-top: 100px;
+  margin-top: 20px;
+  border: 1px solid;
+  padding: 100px;
 
 }
 
@@ -43,4 +45,11 @@
 
 .single-card :hover{
   color: rgb(206, 46, 46);
+}
+
+.gameover{
+  text-decoration: none;
+  padding: 100px;
+  font-size: 100px;
+  margin-bottom: 100px;
 }

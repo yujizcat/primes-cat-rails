@@ -5,10 +5,33 @@ class UsersController < ApplicationController
 
   def index
     p "main menu"
+    p current_user.on_duty_cards
     p params
+    @user = current_user
+    @user.level = get_level_by_points
     @level_name = get_level_name
-    Game.where("user_id == (?)", current_user.id).delete_all
-    Player.where("user_id == (?)", current_user.id).delete_all
+    if current_user.on_duty
+      @player = Player.find_by("user_id == (?)", current_user.id)
+      @game = Game.find_by("user_id == (?)", current_user.id)
+      p @player
+      p @game
+    end
+    @user.save!
+  end
+
+  def get_level_by_points
+    case @user.points
+    when 0..100
+      0
+    when 100..300
+      1
+    when 300.600
+      2
+    when 600..1000
+      3
+    else
+      4
+    end
   end
 
   def get_level_name
@@ -50,23 +73,24 @@ class UsersController < ApplicationController
 
   def levelup
     @user = current_user
-    if @user.level < 11
-      p "up"
-      @user.level += 1
-      @user.save!
-      p @user.level
-    end
+    p "up"
+    @user.points += 99
+    @user.save!
     redirect_to :root
   end
 
   def leveldown
     @user = current_user
-    if @user.level > 0
-      p "down"
-      @user.level -= 1
-      @user.save!
-      p @user.level
-    end
+    p "down"
+    @user.points -= 99
+    @user.save!
+    redirect_to :root
+  end
+
+  def resetpoints
+    @user = current_user
+    @user.points = 0
+    @user.save!
     redirect_to :root
   end
 end
