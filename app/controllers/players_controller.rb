@@ -16,7 +16,6 @@ class PlayersController < ApplicationController
     @player.user_id = current_user.id
     @player.cards = []
     @player.original_cards = []
-    # @player.level = current_user.level
     @player.powers = 0
     @player.current_history = []
     @player.is_ai = false
@@ -40,9 +39,11 @@ class PlayersController < ApplicationController
     num_cards = 3
     case current_user.level.to_i
     when 0
-      [0, 50, num_cards]
+      [0, 5, 3]
     when 1..10
-      [0, current_user.level.to_i * 100, num_cards]
+      [(current_user.level.to_i - 1) * 100, (current_user.level.to_i) * 100, num_cards]
+    when 11
+      [1000, 9999, num_cards]
     else
       [0, 50, num_cards]
     end

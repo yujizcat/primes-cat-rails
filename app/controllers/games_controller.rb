@@ -16,6 +16,10 @@ class GamesController < ApplicationController
     @game.current_possibles = []
     @game.game_over = false
     @game.player = set_up(@player)
+    @player.original_cards = @player.cards.clone
+    p "original"
+    p @player.original_cards
+    @player.current_history << @player.original_cards
     @player.save!
     @game.save!
     if @game.save!
@@ -32,6 +36,7 @@ class GamesController < ApplicationController
     [*1..player.init_num_cards].each do |i|
       player.cards << player.default_primes.delete(player.default_primes.sample)
     end
+
     p "ccccc"
     p player.init_num_cards
     p player
@@ -93,7 +98,7 @@ class GamesController < ApplicationController
     input = params[:my_action].split(" ")
     @player = Player.find(params[:player_id])
     @game = Game.find(params[:game_id])
-    player_card = @player.cards
+
     new_value = input[0].to_i + input[1].to_i
     @player.cards.flatten!
     @player.cards.push(new_value.to_i)
@@ -102,8 +107,13 @@ class GamesController < ApplicationController
     auto_reduce_fraction
     auto_reduce_fraction
     @game.current_action = ""
+    @player.current_history << @player.cards
+
     @game.round += 1
     @game.save!
+    @player.save!
+
+    check_game_over
 
     redirect_back fallback_location: root_path
   end
@@ -142,15 +152,27 @@ class GamesController < ApplicationController
     @player.save!
   end
 
+  def check_game_over
+    if @player.cards.size <= 2
+      puts "game over"
+      @game.game_over = true
+      @game.save!
+    end
+  end
+
   def challenge
-    puts "bbb practice"
+    puts "start challenge"
     p params
     @game = Game.find(params[:format].to_i)
     p @game
     p @game.player
   end
 
-  def game
+  def win
+    p "You win"
+    @game = Game.find(params[:game_id].to_i)
+    @player = Player.find(params[:player_id])
+    p params
   end
 
   def backtomain

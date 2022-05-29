@@ -7,11 +7,6 @@ class UsersController < ApplicationController
     p "main menu"
     p params
     @level_name = get_level_name
-    #Game.delete_all
-    #Player.delete_all
-    #Game.where(:user_id => current_user.id).destroy_all
-    #p Player.find_by(user_id: current_user.id)
-    #Game.where("user_id == (?)", current_user.id).delete_all
     Game.where("user_id == (?)", current_user.id).delete_all
     Player.where("user_id == (?)", current_user.id).delete_all
   end
@@ -19,49 +14,29 @@ class UsersController < ApplicationController
   def get_level_name
     case current_user.level.to_i
     when 0
-      "小白"
+      "鼠"
     when 1
-      "青铜☆"
+      "猫"
     when 2
-      "青铜☆☆"
+      "狗"
     when 3
-      "青铜☆☆☆"
+      "猴"
     when 4
-      "青铜★"
+      "狼"
     when 5
-      "白银☆"
+      "豹"
     when 6
-      "白银☆☆"
+      "虎"
     when 7
-      "白银☆☆☆"
+      "狮"
     when 8
-      "白银★"
+      "象"
     when 9
-      "黄金☆"
+      "鲸"
     when 10
-      "黄金☆☆"
+      "龙"
     when 11
-      "黄金☆☆☆"
-    when 12
-      "黄金★"
-    when 13
-      "铂金☆"
-    when 14
-      "铂金☆☆"
-    when 15
-      "铂金☆☆☆"
-    when 16
-      "铂金★"
-    when 17
-      "钻石☆"
-    when 18
-      "钻石☆☆"
-    when 19
-      "钻石☆☆☆"
-    when 20
-      "钻石★"
-    when 21
-      "星耀☆"
+      "人"
     else
       return "游客"
     end
@@ -74,20 +49,24 @@ class UsersController < ApplicationController
   end
 
   def levelup
-    p "up"
     @user = current_user
-    @user.level += 1
-    @user.save!
-    p @user.level
+    if @user.level < 11
+      p "up"
+      @user.level += 1
+      @user.save!
+      p @user.level
+    end
     redirect_to :root
   end
 
   def leveldown
-    p "down"
     @user = current_user
-    @user.level -= 1
-    @user.save!
-    p @user.level
+    if @user.level > 0
+      p "down"
+      @user.level -= 1
+      @user.save!
+      p @user.level
+    end
     redirect_to :root
   end
 end

@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   get "games/select", to: "games#select"
   get "games/add_cards", to: "games#add_cards"
   get "games/backtomain", to: "games#backtomain"
+  get "games/win", to: "games#win"
   resource :users
   resource :users do
     resource :players, only: [:show]

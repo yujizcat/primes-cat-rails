@@ -10,6 +10,14 @@
   <div class="back">
     <%= link_to '返回主页' , games_backtomain_path(:game_id => @game), method: :get %>
   </div>
+
+  <div class="gameover">
+    <% if @game.game_over == true %>
+    <%= "Game Over" %>
+    <%= link_to "您赢了", games_win_path(:player_id=>@game.player, :game_id => @game) %>
+    <% end %>
+  </div>
+
   <h1>
     <% if @game.current_action.split(" ").size == 2 %>
     <%= "
