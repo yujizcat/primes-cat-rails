@@ -1,12 +1,19 @@
 <div class="banner">
 
   <div class="left-bar">
-    <h1>练习模式</h1>
+    <h1>
+      <% if @game.current_action.split(" ").size == 2 %>
+    <%= "#{@game.current_action.split(" ")[0]} + #{@game.current_action.split(" ")[1]} = #{@game.current_action.split(" ")[0].to_i + @game.current_action.split(" ")[1].to_i}"%>
+        <% else %>
+          <%= "您正在选择中" %>
+            <% end %>
+    </h1>
+    </div>
+
+  <div class="middle-bar">
+    <h1>挑战模式</h1>
     <h1>
       <%=current_user.username%>
-    </h1>
-    <h1>
-      <%= @game.round%>
     </h1>
     <div class="give-up">
       <% unless @game.game_over==true %>
@@ -19,30 +26,13 @@
       <%= link_to "作弊您赢了" , games_win_path(:player_id=>@game.player, :game_id => @game) %>
     </div>
 
-
-
-
-
-    <h1>
-      <% if @game.current_action.split(" ").size == 2 %>
-    <%= "#{@game.current_action.split(" ")[0]} + #{@game.current_action.split(" ")[1]} = #{@game.current_action.split(" ")[0].to_i + @game.current_action.split(" ")[1].to_i}"%>
-        <% else %>
-          <%= "您正在选择中" %>
-            <% end %>
-    </h1>
-    <div class="add-sum">
-      <% if @game.current_action.split(" ").size == 2 %>
-      <% sum_card = @game.current_action.split(" ")[0].to_i + @game.current_action.split(" ")[1].to_i %>
-      <%= link_to " Add #{sum_card} to my cards", games_add_cards_path(:my_action=>
-        @game.current_action,:player_id=>@game.player, :game_id => @game), method: :get%>
-        <% end %>
-    </div>
   </div>
+
+
 
   <div class="right-bar">
     <% @game.notes.split("\n").each do |s| %>
-    <%= s %>
-      <br>
+    <p><%= s %></p>
     <% end %>
   </div>
 </div>
@@ -94,4 +84,13 @@
 </div>
 
 
-<a href=" #" class="btn btn-primary">Click me</a>
+
+<div class="add-sum">
+  <% if @game.current_action.split(" ").size == 2 %>
+  <% sum_card = @game.current_action.split(" ")[0].to_i + @game.current_action.split(" ")[1].to_i %>
+  <%= link_to " 确认选择", games_add_cards_path(:my_action=>
+    @game.current_action,:player_id=>@game.player, :game_id => @game), method: :get%>
+    <% else %>
+    <a>待选择</a>
+    <% end %>
+</div>

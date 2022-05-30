@@ -11,16 +11,22 @@
 
 }
 
-.left-bar {
+.middle-bar {
   background-color: rgb(223, 205, 183);
-  width: 30%;
+  width: 33%;
   border-radius: 20px;
 
 
 }
 
+.left-bar{
+  width: 33%;
+  background-color: rgb(176, 220, 169);
+  border-radius: 20px;
+}
+
 .right-bar {
-  width: 70%;
+  width: 33%;
   background-color: rgb(217, 240, 233);
   border-radius: 20px;
 }
@@ -44,13 +50,14 @@
 
 .single-card{
   margin-top: 20px;
-
+  border: 1px solid;
   border-radius: 10%;
+  box-shadow: 5px 10px;
   padding: 20px;
   display: inline;
   width: 250px;
   justify-content: space-between;
-  background-color: rgb(221, 199, 249);
+  background-color: rgb(222, 227, 128);
 
 }
 
@@ -69,6 +76,7 @@
 
 .single-card :hover{
   color: rgb(206, 46, 46);
+  text-decoration: none;
 }
 
 .gameover{
@@ -130,4 +138,88 @@
   margin-right: 10px;
   font-size: 20px;
   color:rgb(9, 20, 138);
+}
+
+.add-sum2 {
+  background-color: #84e6ed; /* Green */
+  border: 1px solid;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  box-shadow: 5px 10px;
+
+}
+
+.add-sum2 a{
+  font-size: 30px;
+  color:#f04343;
+
+}
+
+.add-sum2 :hover{
+  text-decoration: none;
+  font-size: 35px;
+}
+
+.add-sum {
+  display: inline-block;
+  padding: .75rem 1.25rem;
+  border-radius: 20rem;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 1rem;
+  letter-spacing: .15rem;
+  transition: all .3s;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #0cf;
+    border-radius: 10rem;
+    z-index: -2;
+  }
+  &:before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    background-color: darken(#0cf, 15%);
+    transition: all .3s;
+    border-radius: 10rem;
+    z-index: -1;
+  }
+  &:hover {
+    color: #fff;
+    &:before {
+      width: 100%;
+    }
+  }
+}
+
+.add-sum a{
+  display: inline-block;
+  border-radius: 20rem;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 1rem;
+  letter-spacing: .15rem;
+  transition: all .3s;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.add-sum :hover{
+text-decoration: none;
 }

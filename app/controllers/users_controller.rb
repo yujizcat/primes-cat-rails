@@ -9,6 +9,9 @@ class UsersController < ApplicationController
     p params
     @user = current_user
     @user.level = get_level_by_points
+    if @user.points < 0
+      @user.points = 0
+    end
     @level_name = get_level_name
     if current_user.on_duty
       @player = Player.find_by("user_id == (?)", current_user.id)
@@ -44,7 +47,7 @@ class UsersController < ApplicationController
     when 51200..102399
       10
     else
-      11
+      0
     end
   end
 
@@ -97,6 +100,9 @@ class UsersController < ApplicationController
     @user = current_user
     p "down"
     @user.points -= 99
+    if @user.points < 0
+      @user.points = 0
+    end
     @user.save!
     redirect_to :root
   end

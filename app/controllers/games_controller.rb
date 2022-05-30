@@ -22,6 +22,8 @@ class GamesController < ApplicationController
     @player.original_cards = @player.cards.clone
     @player.current_history << @player.original_cards
     @game.notes = ""
+    @game.notes += "第#{@game.round}天\n"
+    @game.notes += "负重：#{@player.cards.sum}\n"
     @player.save!
     @game.save!
     if @game.save!
@@ -209,13 +211,17 @@ class GamesController < ApplicationController
     translate = ""
     temp = []
 
+    clone_sum = []
+
     translate += "第#{@game.round}天\n"
+    translate += "负重：#{@player.cards.sum}\n"
 
     @game.notes.split("\n").each_with_index do |s, i|
       p "#{i}--#{s}"
       case
       when i == 0
         p "你的初始卡片是#{s}"
+        clone_sum << s.clone
         translate += "前成员："
         JSON.parse(s).each do |k|
           translate += "#{@game.cards_name_array[k].chop} "
@@ -224,7 +230,7 @@ class GamesController < ApplicationController
       when i == 1
         translate += "#{@game.cards_name_array[s.to_i].chop}和"
       when i == 2
-        translate += "#{@game.cards_name_array[s.to_i].chop}\n"
+        translate += "#{@game.cards_name_array[s.to_i].chop}, "
       when i == 3
         translate += "招来了共同好友 #{@game.cards_name_array[JSON.parse(s)[-1]].chop}\n"
         temp << JSON.parse(s)
@@ -257,18 +263,29 @@ class GamesController < ApplicationController
           translate += "打架，打成了 "
           diff2.each do |d|
             p "#{@game.cards_name_array[d]}"
-            translate += "#{@game.cards_name_array[d].chop} \n" unless @game.cards_name_array[d].chop == "人"
+            translate += "#{@game.cards_name_array[d].chop} " unless @game.cards_name_array[d].chop == "人"
           end
         end
 
         temp << JSON.parse(s)
       end
     end
-    p translate
-    return translate
-  end
 
-  def tell_story
+    diff_sum = @player.cards.sum - JSON.parse(clone_sum.first).sum
+    # p @player.cards.sum
+    # p JSON.parse(clone_sum.first).sum
+    translate += "\n"
+    if diff_sum > 0
+      translate += "增加#{diff_sum}"
+    elsif diff_sum < 0
+      translate += "减少#{diff_sum.abs}"
+    else
+      translate += "不变"
+    end
+
+    translate += "\n"
+
+    return translate
   end
 
   def calculate_points
