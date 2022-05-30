@@ -19,7 +19,6 @@ class GamesController < ApplicationController
     @game.game_over = false
     @game.player = set_up(@player)
     @player.original_cards = @player.cards.clone
-    @user.points -= calculate_points / 4 # For hold
     p "original"
     # p @player.original_cards
     @player.current_history << @player.original_cards
@@ -42,6 +41,16 @@ class GamesController < ApplicationController
     [*1..player.init_num_cards].each do |i|
       player.cards << player.default_primes.delete(player.default_primes.sample)
     end
+
+    p "set up names"
+    file = File.open("db/all_names.txt")
+    file_data = file.read.split(" ")
+    file_data.each_slice(2) do |i, n|
+      #p "#{i} #{n}"
+      @game.cards_name_array << n
+    end
+
+    # p @game.cards_name_array
 
     p "ccccc"
     p player.init_num_cards
@@ -192,8 +201,20 @@ class GamesController < ApplicationController
     @player = Player.find(params[:player_id])
     @final_points = calculate_points
     @user.points += @final_points
-    @user.points += @final_points / 4 # give back hold
-    @user.level += 1
+    @user.on_duty = false
+    @user.on_duty_cards = []
+    @user.save!
+    Game.where("user_id == (?)", current_user.id).delete_all
+    Player.where("user_id == (?)", current_user.id).delete_all
+  end
+
+  def lose
+    p "You lose"
+    @user = current_user
+    @game = Game.find(params[:game_id].to_i)
+    @player = Player.find(params[:player_id])
+    @final_points = calculate_points
+    @user.points -= @final_points / 4
     @user.on_duty = false
     @user.on_duty_cards = []
     @user.save!
@@ -202,16 +223,7 @@ class GamesController < ApplicationController
   end
 
   def backtomain
-    p "backtomain"
-    @user = current_user
-    @game = Game.find(params[:game_id])
-    @user.on_duty = false
-    @user.on_duty_cards = []
-    @user.save!
-
-    #@game.delete
-    Game.where("user_id == (?)", current_user.id).delete_all
-    Player.where("user_id == (?)", current_user.id).delete_all
+    p "back to main"
     redirect_to :root
   end
 end

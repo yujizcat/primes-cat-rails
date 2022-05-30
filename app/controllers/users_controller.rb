@@ -20,17 +20,31 @@ class UsersController < ApplicationController
   end
 
   def get_level_by_points
-    case @user.points
-    when 0..100
+    case current_user.points
+    when 0..99
       0
-    when 100..300
+    when 100..199
       1
-    when 300.600
+    when 200..399
       2
-    when 600..1000
+    when 400..799
       3
-    else
+    when 800..1599
       4
+    when 1600..3199
+      5
+    when 3200..6399
+      6
+    when 6400..12799
+      7
+    when 12800..25599
+      8
+    when 25600..51199
+      9
+    when 51200..102399
+      10
+    else
+      11
     end
   end
 

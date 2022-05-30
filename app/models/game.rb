@@ -3,4 +3,5 @@ class Game < ApplicationRecord
 
   #extend FriendlyId
   #friendly_id :user_id, use: :slugged
+  serialize :cards_name_array, Array
 end

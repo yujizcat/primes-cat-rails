@@ -8,10 +8,11 @@
     <%= @game.round%>
   </h1>
   <div class="back">
-    <%= link_to '投降' , games_backtomain_path(:game_id=> @game), method: :get, :data => {:confirm => "您是否确定投降？"} %>
+
+    <%= link_to "投降" , games_lose_path(:player_id=>@game.player, :game_id => @game), :data => {:confirm => "您是否确定投降？"} %>
   </div>
 
-  <div class="gameover">
+  <div class="cheating">
     <%= link_to "作弊您赢了" , games_win_path(:player_id=>@game.player, :game_id => @game) %>
   </div>
 
@@ -46,7 +47,7 @@
         <div class="single-card">
 
           <div class="card-name">
-            <%= "猫" %>
+            <%= @game.cards_name_array[n].chop %>
           </div>
           <% if @game.current_action.split(" ").include?(n.to_s) %>
         <%= link_to n,  games_select_path(:selected_number => n, :index => i, :player_id =>@game.player, :game_id => @game), :style=>'color:red; font-size:70px; padding: 15px;', method: :get %>
