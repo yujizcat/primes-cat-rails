@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_30_070249) do
+ActiveRecord::Schema.define(version: 2022_05_30_094352) do
 
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string "slug", null: false
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 2022_05_30_070249) do
     t.integer "user_id"
     t.string "cards_name"
     t.text "cards_name_array"
+    t.text "notes"
     t.index ["player_id"], name: "index_games_on_player_id"
     t.index ["slug"], name: "index_games_on_slug", unique: true
   end

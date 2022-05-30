@@ -13,8 +13,8 @@ class UsersController < ApplicationController
     if current_user.on_duty
       @player = Player.find_by("user_id == (?)", current_user.id)
       @game = Game.find_by("user_id == (?)", current_user.id)
-      p @player
-      p @game
+      # p @player
+      # p @game
     end
     @user.save!
   end

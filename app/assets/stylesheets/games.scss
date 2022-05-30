@@ -5,41 +5,65 @@
 @import "bootstrap";
 
 .banner{
-  background-color: antiquewhite;
+  background-color: beige;
+  display: flex;
+  justify-content: space-between;
+
 }
 
+.left-bar {
+  background-color: rgb(223, 205, 183);
+  width: 30%;
+  border-radius: 20px;
+
+
+}
+
+.right-bar {
+  width: 70%;
+  background-color: rgb(217, 240, 233);
+  border-radius: 20px;
+}
+
+.all-cards-container {
+  background-color: aliceblue;
+
+}
 
 .all-cards{
 
-  background-color: rgb(240, 242, 244);
-  height: 300px;
+  height: 250px;
   font-size: 40px;
-  display: flex;
-  justify-content: center;
+  display:flex;
+
   justify-content: space-around;
+
 }
+
+
 
 .single-card{
   margin-top: 20px;
-  border: 1px solid;
-  padding: 100px;
+
+  border-radius: 10%;
+  padding: 20px;
+  display: inline;
+  width: 250px;
+  justify-content: space-between;
+  background-color: rgb(221, 199, 249);
 
 }
 
-.single-card a{
-
+.single-card2 a{
   color: rgb(53, 32, 157);
-  font-size: 50px;
+  font-size: 20px;
   text-decoration: none;
+
 }
 
 .single-card-clicked {
   color: red;
   text-decoration: none;
-}
-
-.single-card a:active{
-  color: aqua;
 }
 
 
@@ -52,4 +76,58 @@
   padding: 100px;
   font-size: 100px;
   margin-bottom: 100px;
+}
+
+.give-up2{
+  font: bold 30px Arial;
+  width: 80px;
+  text-decoration: none;
+  background-color: #EEEEEE;
+  color: #cd7d7d;
+  padding: 2px 6px 2px 6px;
+  border-top: 1px solid #CCCCCC;
+  border-right: 1px solid #333333;
+  border-bottom: 1px solid #333333;
+  border-left: 1px solid #CCCCCC;
+  &:hover {
+    text-decoration: none;
+    color:rgb(206, 46, 46);
+  }
+}
+
+.card-title{
+  color: rgb(15, 75, 75);
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 30px;
+  justify-content: center;
+  display:flex;
+  text-decoration: none;
+  &:hover {
+    text-decoration: none;
+    color:rgb(206, 46, 46);
+  }
+
+}
+
+
+.card-title-selected{
+  font-size: 50px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  color: #f04343;
+  justify-content: center;
+  display: flex;
+  text-decoration: none;
+  &:hover {
+    text-decoration: none;
+    color:rgb(206, 46, 46);
+  }
+
+}
+
+.card-number{
+  display: flex;
+  justify-content:right;
+  margin-right: 10px;
+  font-size: 20px;
+  color:rgb(9, 20, 138);
 }
