@@ -13,20 +13,20 @@
 
 .middle-bar {
   background-color: rgb(223, 205, 183);
-  width: 33%;
+  width: 20%;
   border-radius: 20px;
 
 
 }
 
 .left-bar{
-  width: 33%;
+  width: 30%;
   background-color: rgb(176, 220, 169);
   border-radius: 20px;
 }
 
 .right-bar {
-  width: 33%;
+  width: 50%;
   background-color: rgb(217, 240, 233);
   border-radius: 20px;
 }
@@ -57,25 +57,16 @@
   display: inline;
   width: 250px;
   justify-content: space-between;
-  background-color: rgb(222, 227, 128);
+  background-color: rgb(221, 222, 211);
 
 }
 
-.single-card2 a{
-  color: rgb(53, 32, 157);
-  font-size: 20px;
-  text-decoration: none;
-
-}
-
-.single-card-clicked {
-  color: red;
-  text-decoration: none;
-}
 
 
-.single-card :hover{
+
+.all-cards :hover{
   color: rgb(206, 46, 46);
+  background-color: #0cf;
   text-decoration: none;
 }
 
@@ -134,35 +125,13 @@
 
 .card-number{
   display: flex;
-  justify-content:right;
+  justify-content:center;
   margin-right: 10px;
-  font-size: 20px;
+  font-size: 70px;
   color:rgb(9, 20, 138);
 }
 
-.add-sum2 {
-  background-color: #84e6ed; /* Green */
-  border: 1px solid;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  box-shadow: 5px 10px;
 
-}
-
-.add-sum2 a{
-  font-size: 30px;
-  color:#f04343;
-
-}
-
-.add-sum2 :hover{
-  text-decoration: none;
-  font-size: 35px;
-}
 
 .add-sum {
   display: inline-block;

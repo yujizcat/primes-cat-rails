@@ -3,12 +3,26 @@
   <div class="left-bar">
     <h1>
       <% if @game.current_action.split(" ").size == 2 %>
-    <%= "#{@game.current_action.split(" ")[0]} + #{@game.current_action.split(" ")[1]} = #{@game.current_action.split(" ")[0].to_i + @game.current_action.split(" ")[1].to_i}"%>
+    <%= "
+        #{@game.current_action.split(" ")[0]} + #{@game.current_action.split(" ")[1]} = #{@game.current_action.split(" ")[0].to_i + @game.current_action.split(" ")[1].to_i}"
+        %>
         <% else %>
           <%= "您正在选择中" %>
             <% end %>
     </h1>
-    </div>
+  </div>
+
+
+
+
+
+  <div class="right-bar">
+    <% @game.notes.split("\n").each do |s| %>
+      <p>
+        <%= s %>
+      </p>
+      <% end %>
+  </div>
 
   <div class="middle-bar">
     <h1>挑战模式</h1>
@@ -17,9 +31,9 @@
     </h1>
     <div class="give-up">
       <% unless @game.game_over==true %>
-      <%= link_to "投降" , games_lose_path(:player_id=>@game.player, :game_id => @game), :data => {:confirm =>
-        "您是否确定投降？"}, class: "give-up2" %>
-        <% end %>
+        <%= link_to "投降" , games_lose_path(:player_id=>@game.player, :game_id => @game), :data => {:confirm =>
+          "您是否确定投降？"}, class: "give-up2" %>
+          <% end %>
     </div>
 
     <div class="cheating">
@@ -27,70 +41,80 @@
     </div>
 
   </div>
-
-
-
-  <div class="right-bar">
-    <% @game.notes.split("\n").each do |s| %>
-    <p><%= s %></p>
-    <% end %>
-  </div>
 </div>
 
-<div class="all-cards-container">
-  <div class="all-cards">
 
 
-    <% if @game.game_over==true %>
-      <div class="gameover">
-        <%= link_to "您赢了" , games_win_path(:player_id=>@game.player, :game_id => @game) %>
-      </div>
-      <% else %>
-        <% @game.player.cards.each_with_index do |n,i| %>
 
-          <div class="single-card">
+<div class="all-cards">
 
 
-            <div class="card-number">
-              <%= n %>
-            </div>
-
-        <% unless @game.current_action.split(" ").include?(n.to_s) %>
-        <div class="card-title">
-          <% if n <=1000 %>
-            <%= link_to @game.cards_name_array[n].chop, games_select_path(:selected_number => n, :index => i, :player_id =>@game.player, :game_id => @game), method: :get%>
-              <% else %>
-                <%= link_to "不明生物", games_select_path(:selected_number => n, :index => i, :player_id =>@game.player, :game_id => @game), method: :get%>
-                  <% end %>
-        </div>
-        <% else %>
-        <div class="card-title-selected">
-          <% if n <=1000 %>
-            <%= link_to @game.cards_name_array[n].chop, games_select_path(:selected_number => n, :index => i, :player_id =>@game.player, :game_id => @game), method: :get%>
-              <% else %>
-              <%= link_to "不明生物", games_select_path(:selected_number => n, :index => i, :player_id =>@game.player, :game_id => @game), method: :get%>
-                  <% end %>
-            <%= "★" %>
-        </div>
-        <% end %>
-
+  <% if @game.game_over==true %>
+    <div class="gameover">
+      <%= link_to "您赢了" , games_win_path(:player_id=>@game.player, :game_id => @game) %>
     </div>
+    <% else %>
+      <% @game.player.cards.each_with_index do |n,i| %>
 
 
 
-    <% end %>
-    <% end %>
-  </div>
+        <%= link_to games_select_path(:selected_number=> n, :index => i, :player_id =>@game.player, :game_id =>
+          @game), :class=> "single-card" do%>
+
+
+
+
+          <% unless @game.current_action.split(" ").include?(n.to_s) %>
+        <div class=" card-title">
+            <% if n <=1000 %>
+              <%= @game.cards_name_array[n].chop%>
+
+                <% else %>
+                  <%= "不明生物" %>
+                    <% end %>
 </div>
 
+<% else %>
 
 
-<div class="add-sum">
-  <% if @game.current_action.split(" ").size == 2 %>
+
+<div class="card-title-selected">
+  <% if n <=1000 %>
+    <%= @game.cards_name_array[n].chop %>
+      <% else %>
+        <%= "不明生物" %>
+          <% end %>
+          <%= "✔" %>
+</div>
+
+<% end %>
+
+  <div class="card-number">
+    <%= n %>
+  </div>
+
+
+
+
+
+  <% end %>
+
+
+
+    <% end %>
+      <% end %>
+
+        </div>
+
+<br>
+
+        <div class="add-sum">
+
+          <% if @game.current_action.split(" ").size == 2 %>
   <% sum_card = @game.current_action.split(" ")[0].to_i + @game.current_action.split(" ")[1].to_i %>
   <%= link_to " 确认选择", games_add_cards_path(:my_action=>
-    @game.current_action,:player_id=>@game.player, :game_id => @game), method: :get%>
-    <% else %>
-    <a>待选择</a>
-    <% end %>
-</div>
+            @game.current_action,:player_id=>@game.player, :game_id => @game), method: :get%>
+            <% else %>
+              <a>待选择</a>
+              <% end %>
+        </div>
