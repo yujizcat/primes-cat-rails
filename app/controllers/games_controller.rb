@@ -120,14 +120,20 @@ class GamesController < ApplicationController
     @game.notes += "#{input[1]}\n"
 
     new_value = input[0].to_i + input[1].to_i
-    @player.cards.flatten!
-    @player.cards.push(new_value.to_i)
+    unless @player.cards.include?(new_value)
+      @player.cards.flatten!
+      @player.cards.push(new_value.to_i)
+    end
+
     @player.save!
 
-    @game.notes += "#{@player.cards}\n" # Add notes before auto reduce
+    # @game.notes += "#{@player.cards}\n" # Add notes before auto reduce
 
-    auto_reduce_fraction
-    auto_reduce_fraction
+    #auto_reduce_fraction
+    #auto_reduce_fraction
+
+    @player.cards.sort!
+    @player.save!
 
     @game.notes += "#{@player.cards}\n" # Add notes after auto reduce
 
@@ -148,6 +154,64 @@ class GamesController < ApplicationController
 
     @user.on_duty_cards = @player.cards
     @user.save!
+
+    redirect_back fallback_location: root_path
+  end
+
+  def reduce_cards
+    p "reduce"
+    @player = Player.find(params[:player_id])
+    @game = Game.find(params[:game_id])
+
+    @game.notes = "" # Reset current notes
+    @game.notes += "#{@player.cards}\n" # Add current cards
+    @game.notes += "#{params[:selection][0].to_i}\n"
+    @game.notes += "#{params[:selection][1].to_i}\n"
+
+    @game.notes += "#{@player.cards}\n" # Add notes before reduce
+
+    common_number = false
+    change_index = [-1, -1]
+
+    x = params[:selection][0].to_i
+    y = params[:selection][1].to_i
+    i = @player.cards.index(x)
+    j = @player.cards.index(y)
+
+    p "numbers #{x} #{y}"
+    p "indexs #{i} #{j}"
+
+    if x != y
+      unless (x == 1) || (y == 1)
+        if x.gcd(y) != 1
+          @player.cards[i] /= x.gcd(y)
+          @player.cards[j] /= x.gcd(y)
+        end
+      end
+    else
+      if i != j
+        change_index = [i, j]
+        common_number = true
+      end
+    end
+
+    if common_number
+      @player.cards.delete_at(change_index[1])
+      @player.cards.delete_at(change_index[0])
+    end
+    if @player.cards.include?(1)
+      @game.notes += "#{@player.cards}\n"
+      @player.cards.delete(1)
+    end
+    @player.cards = @player.cards.uniq
+    @player.cards.sort!
+    @player.save!
+
+    @notes_copy = @game.notes.clone
+    p "notes copy"
+    p @notes_copy
+    @game.notes = translate_notes
+    @game.save!
 
     redirect_back fallback_location: root_path
   end

@@ -1,4 +1,5 @@
-<div class="banner">
+<div class="game-banner">
+
 
   <div class="left-bar">
     <h1>
@@ -11,8 +12,6 @@
             <% end %>
     </h1>
   </div>
-
-
 
 
 
@@ -43,10 +42,37 @@
   </div>
 </div>
 
+<br>
+<br>
+<br>
 
+<div class="function-buttons">
+<div class="game-buttons">
 
+  <% if @game.current_action.split(" ").size == 2 %>
+<% sum_card = @game.current_action.split(" ")[0].to_i + @game.current_action.split(" ")[1].to_i %>
+<%= link_to " 增加", games_add_cards_path(:my_action=>
+    @game.current_action,:player_id=>@game.player, :game_id => @game), method: :get%>
+    <% else %>
+      <a>待选择</a>
+      <% end %>
+</div>
+
+<div class="game-buttons">
+
+  <% if @game.current_action.split(" ").size == 2 %>
+<% sum_card = @game.current_action.split(" ")[0].to_i + @game.current_action.split(" ")[1].to_i %>
+<%= link_to " 约分", games_reduce_cards_path(:my_action=>
+    @game.current_action,:player_id=>@game.player, :game_id => @game, :selection =>[@game.current_action.split(" ")[0].to_i,@game.current_action.split(" ")[1].to_i]), method: :get%>
+    <% else %>
+      <a>待选择</a>
+      <% end %>
+</div>
+
+</div>
 
 <div class="all-cards">
+
 
 
   <% if @game.game_over==true %>
@@ -79,11 +105,6 @@
 
 
 <div class="card-title-selected">
-  <% if n <=1000 %>
-    <%= @game.cards_name_array[n].chop %>
-      <% else %>
-        <%= "不明生物" %>
-          <% end %>
           <%= "✔" %>
 </div>
 
@@ -95,7 +116,7 @@
 
 
 
-
+<br>
 
   <% end %>
 
@@ -107,14 +128,3 @@
         </div>
 
 <br>
-
-        <div class="add-sum">
-
-          <% if @game.current_action.split(" ").size == 2 %>
-  <% sum_card = @game.current_action.split(" ")[0].to_i + @game.current_action.split(" ")[1].to_i %>
-  <%= link_to " 确认选择", games_add_cards_path(:my_action=>
-            @game.current_action,:player_id=>@game.player, :game_id => @game), method: :get%>
-            <% else %>
-              <a>待选择</a>
-              <% end %>
-        </div>

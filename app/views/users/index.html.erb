@@ -1,55 +1,96 @@
-<h1>Welcome</h1>
-<div class="signout">
-  <h2><%= link_to "Sign out!" , destroy_user_session_path, :method=> :delete %></h2>
-</div>
-<li>Welcome👏<%= current_user.username%>👏</li>
-<li>📧:<%= current_user.email%>
-</li>
-<li>Level: <%= current_user.level%>
-</li>
-</li>
-<li>Level Name: <%= @level_name%>
-</li>
-<li>Points: <%= current_user.points%>
-</li>
-
-
-
-<div class="on-duty">
-  <% if current_user.on_duty == true %>
-    <%= "任务正在中" %>
-  <% end %>
-</div>
-
-<div class="newtutorial">
-  <%= link_to '新手说明' , users_newbie_path %>
-</div>
-
-<div class="game-models">
-
-  <div class="challenge">
-    <% if current_user.on_duty == true %>
-      <%= link_to '继续挑战' , games_challenge_path(@game), :data => {:confirm => "您目前还有任务没有完成，请回到之前的任务或者投降。"} %>
-    <% else %>
-      <%= link_to '挑战模式' , players_create_path, method: :post %>
-    <% end %>
+<div class="banner">
+  <h1>Welcome</h1>
+  <div class="userinfo">
+    <li>Welcome👏<%= current_user.username%>👏</li>
+    <li>📧:<%= current_user.email%>
+    </li>
+    <div class="signout">
+      <%= link_to "退出登录" , destroy_user_session_path, :method=> :delete %>
+    </div>
   </div>
+
 </div>
 
-<div class="ranking">
-  <%= link_to '排行榜' , users_ranking_path %>
+<div class="bottom-banner">
+
+  <div class="main-board-left">
+    <p>
+      <% if current_user.on_duty==true %>
+        <%= "任务正在中" %>
+          <% else %>
+            <%= "您当前没有任务，可以开始新的任务。" %>
+              <% end %>
+    </p>
+
+  </div>
+
+  <div class="main-board">
+
+
+
+    <div class="main-board-middle">
+
+      <div class="main-buttons">
+        <% if current_user.on_duty==true %>
+          <%= link_to '继续挑战' , games_challenge_path(@game), :data=> {:confirm => "您目前还有任务没有完成，请回到之前的任务或者投降。"} %>
+            <% else %>
+              <%= link_to '新的挑战' , players_create_path, method: :post %>
+                <% end %>
+                <p></p>>
+      </div>
+
+      <br>
+
+      <div class="main-buttons">
+        <%= link_to '新手说明' , users_newbie_path %>
+        <p></p>>
+      </div>
+
+<br>
+
+      <div class="main-buttons">
+        <%= link_to '排行榜' , users_ranking_path %>
+        <p></p>>
+      </div>
+
+      <br>
+
+      <div class="main-buttons">
+        <%= link_to '我的旅程' , users_myposts_path %>
+        <p></p>>
+      </div>
+    </div>
+
+    <br>
+
+    <div class="main-board-right">
+      <div class="profile">
+        <li>我的等级: <%= @level_name%>
+        </li>
+        <li>我的积分: <%= current_user.points%>
+        </li>
+
+      </div>
+    </div>
+
+
+
+
+
+
+
+  </div>
 </div>
 
 <div class="level-up">
 
-  <%= link_to '+增加等级', users_levelup_path, method: :post %>
+  <%= link_to '+增加等级' , users_levelup_path, method: :post %>
 </div>
 
 <div class="level-down">
-  <%= link_to '-减少等级', users_leveldown_path, method: :post %>
+  <%= link_to '-减少等级' , users_leveldown_path, method: :post %>
 </div>
 
-
 <div class="reset">
-  <%= link_to '积分清零', users_resetpoints_path, method: :post %>
+  <%= link_to '积分清零' , users_resetpoints_path, method: :post %>
 </div>

@@ -4,30 +4,34 @@
 
 @import "bootstrap";
 
-.banner{
-  background-color: beige;
+.game-banner{
+  background-color: rgb(238, 238, 137);
   display: flex;
   justify-content: space-between;
+
+  flex-direction: row;
+  flex-wrap: wrap;
+  column-fill: auto;
 
 }
 
 .middle-bar {
-  background-color: rgb(223, 205, 183);
+
   width: 20%;
   border-radius: 20px;
-
+  height: 200px;
 
 }
 
 .left-bar{
   width: 30%;
-  background-color: rgb(176, 220, 169);
+
   border-radius: 20px;
 }
 
 .right-bar {
   width: 50%;
-  background-color: rgb(217, 240, 233);
+
   border-radius: 20px;
 }
 
@@ -38,13 +42,16 @@
 
 .all-cards{
 
-  height: 250px;
-  font-size: 40px;
-  display:flex;
 
+  font-size: 40px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  column-fill: auto;
   justify-content: space-around;
 
 }
+
 
 
 
@@ -53,11 +60,15 @@
   border: 1px solid;
   border-radius: 10%;
   box-shadow: 5px 10px;
-  padding: 20px;
-  display: inline;
-  width: 250px;
+  padding: 15px;
+  display: flexbox;
+  width: 150px;
+  height: 250px;
   justify-content: space-between;
   background-color: rgb(221, 222, 211);
+
+
+  column-fill: auto;
 
 }
 
@@ -131,10 +142,14 @@
   color:rgb(9, 20, 138);
 }
 
+.function-buttons{
+  text-align: center;
+  justify-content: center;
+}
 
-
-.add-sum {
+.game-buttons {
   display: inline-block;
+  width: 180px;
   padding: .75rem 1.25rem;
   border-radius: 20rem;
   color: #fff;
@@ -176,7 +191,7 @@
   }
 }
 
-.add-sum a{
+.game-buttons a{
   display: inline-block;
   border-radius: 20rem;
   color: #fff;
@@ -189,6 +204,6 @@
   z-index: 1;
 }
 
-.add-sum :hover{
+.game-buttons :hover{
 text-decoration: none;
 }

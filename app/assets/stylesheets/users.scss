@@ -1,3 +1,120 @@
 // Place all the styles related to the Users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+
+h1{
+  font-family: 微软雅黑, "Microsoft YaHei",  "MicrosoftJhengHei", 华文细黑, STHeiti, MingLiu
+}
+
+a{
+  font-family: 微软雅黑, "Microsoft YaHei",  "MicrosoftJhengHei", 华文细黑, STHeiti, MingLiu
+}
+
+.banner {
+  background-color: aliceblue;
+  height: 100px;
+  display:flex;
+  justify-content:space-between;
+}
+
+.user-info {
+  justify-content: right;
+
+}
+
+.signout{
+  padding-left: 70px;
+}
+
+.bottom-banner {
+  display: flex ;
+  background-color: rgb(165, 213, 197);
+  height: 300px;
+}
+
+.main-board-left {
+  background-color:rgb(190, 216, 218);
+  width: 30%;
+  text-align: center;
+  padding: 30px;
+}
+
+
+.main-board {
+  background-color: aliceblue;
+  display:flex;
+  width: 70%;
+}
+
+.main-board-middle {
+  background-color: aliceblue;
+  display:list-item;
+  width: 50%;
+  padding: 50px;
+}
+
+.main-board-right {
+  background-color: aliceblue;
+  width: 50%;
+}
+
+
+
+/* CSS */
+.main-buttons {
+  background-image: linear-gradient(#42A1EC, #0070C9);
+  border: 1px solid #0077CC;
+  border-radius: 4px;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  direction: ltr;
+  display: block;
+  font-family: "SF Pro Text","SF Pro Icons","AOS Icons","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: -.022em;
+  line-height: 1.47059;
+  min-width: 30px;
+  overflow: visible;
+  padding: 4px 15px;
+  text-align: center;
+  vertical-align: baseline;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+
+}
+
+.main-buttons:disabled {
+  cursor: default;
+  opacity: .3;
+}
+
+.main-buttons:hover {
+  background-image: linear-gradient(#51A9EE, #147BCD);
+  border-color: #1482D0;
+  text-decoration: none;
+}
+
+.main-buttons:active {
+  background-image: linear-gradient(#3D94D9, #0067B9);
+  border-color: #006DBC;
+  outline: none;
+}
+
+.main-buttons:focus {
+  box-shadow: rgba(131, 192, 253, 0.5) 0 0 0 3px;
+  outline: none;
+}
+
+.main-buttons a{
+  color: #FFFFFF;
+  font-size: 30px;
+  font-style: oblique;
+  &:hover {
+    text-decoration: none;
+    color:rgb(240, 208, 208);
+  }
+}

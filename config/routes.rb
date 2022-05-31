@@ -8,11 +8,13 @@ Rails.application.routes.draw do
 
   get "/users/newbie", to: "users#newbie"
   get "/users/ranking", to: "users#ranking"
+  get "/users/myposts", to: "users#myposts"
   post "users/levelup"
   post "users/leveldown"
   post "users/resetpoints"
   get "games/select", to: "games#select"
   get "games/add_cards", to: "games#add_cards"
+  get "games/reduce_cards", to: "games#reduce_cards"
   get "games/backtomain", to: "games#backtomain"
   get "games/win", to: "games#win"
   get "games/lose", to: "games#lose"
