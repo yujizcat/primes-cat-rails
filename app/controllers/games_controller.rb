@@ -18,6 +18,7 @@ class GamesController < ApplicationController
     @game.current_action = ""
     @game.current_possibles = []
     @game.game_over = false
+    @game.status = "pending"
     @game.player = set_up(@player)
     @player.original_cards = @player.cards.clone
     @player.current_history << @player.original_cards
@@ -123,6 +124,8 @@ class GamesController < ApplicationController
     unless @player.cards.include?(new_value)
       @player.cards.flatten!
       @player.cards.push(new_value.to_i)
+    else
+      @player.cards.delete(new_value)
     end
 
     @player.save!
@@ -137,15 +140,12 @@ class GamesController < ApplicationController
 
     @game.notes += "#{@player.cards}\n" # Add notes after auto reduce
 
-    @game.current_action = ""
     @player.current_history << @player.cards
-
-    @game.round += 1
 
     @notes_copy = @game.notes.clone
     p "notes copy"
     p @notes_copy
-    @game.notes = translate_notes
+    # @game.notes = translate_notes
 
     @game.save!
     @player.save!
@@ -210,8 +210,10 @@ class GamesController < ApplicationController
     @notes_copy = @game.notes.clone
     p "notes copy"
     p @notes_copy
-    @game.notes = translate_notes
+    # @game.notes = translate_notes
     @game.save!
+
+    check_game_over
 
     redirect_back fallback_location: root_path
   end
@@ -255,11 +257,21 @@ class GamesController < ApplicationController
   end
 
   def check_game_over
+    @game.current_action = ""
     if @player.cards.size <= 2
-      puts "game over"
       @player.cards = []
       @player.save!
       @game.game_over = true
+      @game.status = "win"
+      @game.save!
+    elsif @player.cards.size > 10
+      @player.cards = []
+      @game.game_over = true
+      @game.status = "lose"
+      @game.save!
+    else
+      @game.notes += "@#{@player.cards}"
+      @game.round += 1
       @game.save!
     end
   end
@@ -277,8 +289,8 @@ class GamesController < ApplicationController
 
     clone_sum = []
 
-    translate += "第#{@game.round}天\n"
-    translate += "负重：#{@player.cards.sum}\n"
+    # translate += "第#{@game.round}天\n"
+    # translate += "负重：#{@player.cards.sum}\n"
 
     @game.notes.split("\n").each_with_index do |s, i|
       p "#{i}--#{s}"
