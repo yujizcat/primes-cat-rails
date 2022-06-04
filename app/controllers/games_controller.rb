@@ -19,12 +19,15 @@ class GamesController < ApplicationController
     @game.current_possibles = []
     @game.game_over = false
     @game.status = "pending"
+    @game.sumround = 3
     @game.player = set_up(@player)
     @player.original_cards = @player.cards.clone
     @player.current_history << @player.original_cards
+    @game.difficulty = 0
+    @player.cards.each do |card|
+      @game.difficulty += Prime.each(card).select { |n| card % n == 0 }.last
+    end
     @game.notes = ""
-    @game.notes += "第#{@game.round}天\n"
-    @game.notes += "负重：#{@player.cards.sum}\n"
     @player.save!
     @game.save!
     if @game.save!
@@ -40,10 +43,17 @@ class GamesController < ApplicationController
   end
 
   def set_up(player)
-    player.default_primes.compact!
+    #player.default_primes.compact!
+    #[*1..player.init_num_cards].each do |i|
+    #  player.cards << player.default_primes.delete(player.default_primes.sample)
+    #end
+
+    #--------For Testing Only----------
+    test_non_primes = [*2..player.range[1].to_i]
     [*1..player.init_num_cards].each do |i|
-      player.cards << player.default_primes.delete(player.default_primes.sample)
+      player.cards << test_non_primes.delete(test_non_primes.sample)
     end
+    #----------------------------------
 
     p "set up names"
     file = File.open("db/all_names.txt")
@@ -56,12 +66,10 @@ class GamesController < ApplicationController
     # player.cards = [2, 5, 101, 103, 107]
     #----------------------------------
 
-    p player.init_num_cards
-    p player
-    p player.cards
     player.cards.sort!
 
     player.set_original_card
+
     return player
   end
 
@@ -258,6 +266,8 @@ class GamesController < ApplicationController
 
   def check_game_over
     @game.current_action = ""
+    @game.round += 1
+    @game.sumround += @player.cards.size
     if @player.cards.size <= 2
       @player.cards = []
       @player.save!
@@ -266,12 +276,13 @@ class GamesController < ApplicationController
       @game.save!
     elsif @player.cards.size > 10
       @player.cards = []
+      @player.save!
       @game.game_over = true
       @game.status = "lose"
       @game.save!
     else
       @game.notes += "@#{@player.cards}"
-      @game.round += 1
+
       @game.save!
     end
   end
@@ -365,8 +376,13 @@ class GamesController < ApplicationController
   end
 
   def calculate_points
-    points = (@player.original_cards.sum) ** 1.1 / 2
-    return points.to_i
+    #points = (@player.original_cards.sum) ** 1.1 / 2
+    if @game.round >= 3
+      points = (@game.difficulty / (@game.sumround * 1.0 / @game.round)) + (@game.difficulty / @game.round)
+    else
+      points = @game.round
+    end
+    return points
   end
 
   def win
@@ -374,13 +390,13 @@ class GamesController < ApplicationController
     @user = current_user
     @game = Game.find(params[:game_id].to_i)
     @player = Player.find(params[:player_id])
-    @final_points = calculate_points
+    @final_points = calculate_points.to_i ** 1.2
     @user.points += @final_points
     @user.on_duty = false
     @user.on_duty_cards = []
     @user.save!
-    Game.where("user_id == (?)", current_user.id).delete_all
-    Player.where("user_id == (?)", current_user.id).delete_all
+    #Game.where("user_id == (?)", current_user.id).delete_all
+    #Player.where("user_id == (?)", current_user.id).delete_all
   end
 
   def lose
@@ -388,13 +404,13 @@ class GamesController < ApplicationController
     @user = current_user
     @game = Game.find(params[:game_id].to_i)
     @player = Player.find(params[:player_id])
-    @final_points = calculate_points
-    @user.points -= @final_points / 4
+    @final_points = @game.difficulty
+    @user.points -= @final_points
     @user.on_duty = false
     @user.on_duty_cards = []
     @user.save!
-    Game.where("user_id == (?)", current_user.id).delete_all
-    Player.where("user_id == (?)", current_user.id).delete_all
+    #Game.where("user_id == (?)", current_user.id).delete_all
+    #Player.where("user_id == (?)", current_user.id).delete_all
   end
 
   def backtomain

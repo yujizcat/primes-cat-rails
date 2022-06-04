@@ -5,8 +5,9 @@
     <h1>
       <% if @game.current_action.split(" ").size == 2 %>
     <%= "
-        #{@game.current_action.split(" ")[0]} + #{@game.current_action.split(" ")[1]} = #{@game.current_action.split(" ")[0].to_i + @game.current_action.split(" ")[1].to_i}"
-        %>
+        两数之和 = #{@game.current_action.split(" ")[0].to_i + @game.current_action.split(" ")[1].to_i}"%>
+        <br>
+        <%= "两数之差 = #{(@game.current_action.split(" ")[0].to_i - @game.current_action.split(" ")[1].to_i).abs}" %>
         <% else %>
           <%= "您正在选择中" %>
             <% end %>

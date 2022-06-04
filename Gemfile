@@ -1,4 +1,5 @@
 source "https://gems.ruby-china.com/"
+#source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "3.0.3"
@@ -26,6 +27,8 @@ gem "simple_form"
 gem "bootstrap", "~> 4.2.1"
 gem "bootstrap-sass"
 gem "friendly_id", "~> 5.4.0", require: "friendly_id"
+gem "countdown-rails"
+gem "tailwindcss-rails"
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'

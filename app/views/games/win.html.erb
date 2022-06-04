@@ -1,8 +1,38 @@
-<h1>您赢了</h1>
-<div class="back">
-  <%= link_to '返回主页' , games_backtomain_path(:game_id => @game), method: :get %>
+
+
+<div class="game-last-banner">
+  <div class="main-buttons">
+    <%= link_to '返回主页' , games_backtomain_path(:game_id=> @game), method: :get %>
+  </div>
+
+  <div class="game-last-win">
+
+    <h1>您赢了</h1>
+
+      <h2>
+        <%= "您赢取了#{@final_points.to_i}积分" %>
+      </h2>
+      <h1>
+        <%= "难度：#{@game.difficulty}" %>
+      </h1>
+    <h1>
+      <%= "本次轮数：#{@game.round}" %>
+    </h1>
+    <h1>
+      <%= "本次平均轮数：#{@game.sumround*1.0/@game.round}" %>
+    </h1>
+    <h1>
+      <%= "本次综合表现分： #{@final_points.to_i} " %>
+    </h1>
+    <h1>
+      <%= "本次记录" %>
+    </h1>
+    <h3 class="game-history">
+      <% @player.current_history.each do |h|%>
+        <%= h %>
+          <br>
+          <% end %>
+    </h3>
+
+  </div>
 </div>
-<h1><%= @player.original_cards%></h1>
-<h1><%= @game.round%></h1>
-<h1><%= @player.current_history%></h1>
-<h1><%= "您赢取了#{@final_points}积分"%></h1>

@@ -211,3 +211,27 @@
 .game-buttons :hover{
 text-decoration: none;
 }
+
+.game-last-banner{
+  background-color: #CCCCCC;
+}
+
+.game-last-lose{
+  padding: 100px;
+  border: 1px solid;
+  background-color: #cec2c2;
+  text-align: center;
+}
+
+.game-last-win{
+  padding: 100px;
+  border: 1px solid;
+  background-color: #9de0ee;
+  text-align: center;
+}
+
+.game-history{
+  text-align: center;
+  justify-content: center;
+  color: #f04343;
+}
